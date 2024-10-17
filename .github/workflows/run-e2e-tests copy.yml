@@ -1,0 +1,36 @@
+name: Run E2E Tests
+
+on: [push]
+
+jobs:
+  run-unit-tests:
+    name: Run E2E Tests
+    runs-on: ubuntu-latest
+
+    services:
+      mypostgre:
+        image: postgres:16.4-alpine3.20
+        ports: 
+          - 5432:5432
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: docker
+          POSTGRES_DB: postgres
+       
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - run: npm ci
+
+      - run: npm run test:e2e
+        env:
+          JWT_SECRET: mylive
+          DATABASE_URL: "postgresql://postgres:docker@localhost/dbpostgre?schema=public"
+
+
