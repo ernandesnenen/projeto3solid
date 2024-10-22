@@ -22,7 +22,7 @@ describe('Refresh', () => {
     })
 
     const cookies = authresponse.get('Set-Cookie')
-    console.log(cookies)
+
     const response = await request(app.server)
       .patch('/token/refresh')
       .set('Cookie', cookies)
