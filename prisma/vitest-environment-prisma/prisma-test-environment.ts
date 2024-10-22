@@ -21,8 +21,8 @@ export default <Environment>{
   transformMode: 'web',
   async setup() {
     const schema = randomUUID()
-    const dataBaseUrl = generetionDataBaseUrl(schema)
-    process.env.DATABASE_URL = dataBaseUrl
+    const databaseURL = generetionDataBaseUrl(schema)
+    process.env.DATABASE_URL = databaseURL
 
     execSync('npx prisma migrate deploy')
 
