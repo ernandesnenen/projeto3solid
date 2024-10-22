@@ -6,7 +6,7 @@ import { Environment } from 'vitest/environments'
 
 const prisma = new PrismaClient()
 
-function generetionDataBaseUrl(schema: string) {
+async function generetionDataBaseUrl(schema: string) {
   if (!process.env.DATABASE_URL) {
     throw new Error('Please provide a DATABASE_URL environment variable.')
   }
@@ -18,10 +18,10 @@ function generetionDataBaseUrl(schema: string) {
 
 export default <Environment>{
   name: 'prisma',
-  transformMode: 'web',
+  transformMode: 'ssr',
   async setup() {
     const schema = randomUUID()
-    const databaseURL = generetionDataBaseUrl(schema)
+    const databaseURL = await generetionDataBaseUrl(schema)
     process.env.DATABASE_URL = databaseURL
 
     execSync('npx prisma migrate deploy')
